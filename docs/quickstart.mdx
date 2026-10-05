@@ -1,0 +1,82 @@
+---
+sidebar_position: 3
+title: Quickstart
+description: Set up your first organization, brand, and assets with branda-cli and find them in the status bar menu.
+---
+
+# Quickstart
+
+This walkthrough takes about five minutes. It assumes Branda is [installed](./installation.md)
+and the status bar app is running.
+
+## 1. Create an organization and a brand
+
+```bash
+branda-cli org create "Acme"
+branda-cli brand create "Sparkle" --org "Acme"
+```
+
+Every brand belongs to an organization, so brand commands take `--org`. You are automatically
+recorded as the owner of everything you create.
+
+## 2. Add colors
+
+The quickest way to add a color is the shorthand form — Branda detects the format (hex, RGB, or
+CMYK) by itself. Without `--name`, it also names the color after the nearest standard color:
+
+```bash
+branda-cli asset create "#FF0000" --brand "Sparkle" --org "Acme"                         # named "Red"
+branda-cli asset create "#0A14C8" --name "Primary Blue" --brand "Sparkle" --org "Acme"
+branda-cli asset create "20C,40M,60Y,10K" --name "Warm Sand" --brand "Sparkle" --org "Acme"
+```
+
+:::tip[Quote hex codes]
+In `bash` and `zsh` an unquoted `#` starts a comment. Always write `"#0A14C8"` in quotes, or leave
+out the `#` (`0A14C8`).
+:::
+
+## 3. Add a logo, a font, and the guidelines
+
+```bash
+branda-cli asset create "Logo"       --type image --file logo.svg        --brand "Sparkle" --org "Acme"
+branda-cli asset create "Brand Font" --type font  --file brand.ttf       --brand "Sparkle" --org "Acme"
+branda-cli asset create "Guidelines" --type pdf   --file guidelines.pdf  --brand "Sparkle" --org "Acme"
+branda-cli asset create "Homepage"   --type website_link --url "https://www.example.com" --brand "Sparkle" --org "Acme"
+```
+
+## 4. Check what you've got
+
+```bash
+branda-cli asset list --brand "Sparkle" --org "Acme" --table
+```
+
+```text
+| Position | Name         | Type         | Value                 | Size   | Extension | Added      | ID       |
+| -------- | ------------ | ------------ | --------------------- | ------ | --------- | ---------- | -------- |
+| 0        | Red          | color_rgb    | #FF0000               |        |           | 2026-10-05 | 1B2C3D…  |
+| 1        | Primary Blue | color_rgb    | #0A14C8               |        |           | 2026-10-05 | 2C3D4E…  |
+| 2        | Warm Sand    | color_cmyk   | 20:40:60:10           |        |           | 2026-10-05 | 3D4E5F…  |
+| 3        | Logo         | image        | image/svg+xml         | 4.2 KB | SVG       | 2026-10-05 | 4E5F6A…  |
+| …        |              |              |                       |        |           |            |          |
+```
+
+## 5. Use it from the status bar
+
+1. Press **⌘⌥B** from any app — the Branda popover opens with the search field focused.
+2. Type `spa` and press **Return** on *Brand: Sparkle*. Branda selects the organization and the
+   brand; the right-hand column shows the brand's assets.
+3. Try the everyday moves:
+   - **Double-click** a color to copy its `#RRGGBB` value.
+   - **Drag** the logo into Keynote, Figma, Mail, or Finder.
+   - Select an asset and press **Space** for a Quick Look preview.
+   - Press **⌘⌥⇧B** to open the popover *pinned*, so it stays open while you drag files in and
+     out.
+
+You can of course do all of the above in the menu, too: the **+** button below each column adds an
+organization, brand, or asset, and you can drop files from Finder straight onto the asset column.
+
+## Next steps
+
+- Explore all commands in the [branda-cli reference](./cli/index.md).
+- Learn the keyboard shortcuts and features of the [branda Menu](./menu/index.md).
+- Let your coding agent use your brand data: [Usage with AI agents](./ai-agents.mdx).

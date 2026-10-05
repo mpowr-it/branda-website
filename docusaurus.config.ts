@@ -6,8 +6,18 @@ import type * as Preset from '@docusaurus/preset-classic';
 
 const config: Config = {
   title: 'Branda',
-  tagline: 'Your brand colors, fonts and logos — one click away in the macOS status bar.',
+  tagline: 'Your brand, one shortcut away.',
   favicon: 'img/favicon.ico',
+
+  headTags: [
+    {tagName: 'link', attributes: {rel: 'apple-touch-icon', href: '/img/apple-touch-icon.png'}},
+    {tagName: 'link', attributes: {rel: 'preconnect', href: 'https://fonts.googleapis.com'}},
+    {tagName: 'link', attributes: {rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: 'anonymous'}},
+  ],
+
+  stylesheets: [
+    'https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Instrument+Sans:ital,wght@0,400..700;1,400..700&family=JetBrains+Mono:wght@400;600&display=swap',
+  ],
 
   // Future flags, see https://docusaurus.io/docs/api/docusaurus-config#future
   future: {
@@ -30,6 +40,11 @@ const config: Config = {
   // Even if you don't use internationalization, you can use this field to set
   // useful metadata like html lang. For example, if your site is Chinese, you
   // may want to replace "en" with "zh-Hans".
+  markdown: {
+    // .md files are plain CommonMark, .mdx files are MDX
+    format: 'detect',
+  },
+
   i18n: {
     defaultLocale: 'en',
     locales: ['en'],
@@ -54,20 +69,7 @@ const config: Config = {
             },
           },
         },
-        blog: {
-          showReadingTime: true,
-          feedOptions: {
-            type: ['rss', 'atom'],
-            xslt: true,
-          },
-          // Please change this to your repo.
-          // Remove this to remove the "edit this page" links.
-          editUrl: 'https://github.com/mpowr-it/branda-website/tree/main/',
-          // Useful options to enforce blogging best practices
-          onInlineTags: 'warn',
-          onInlineAuthors: 'warn',
-          onUntruncatedBlogPosts: 'warn',
-        },
+        blog: false,
         theme: {
           customCss: './src/css/custom.css',
         },
@@ -77,7 +79,7 @@ const config: Config = {
 
   themeConfig: {
     // Replace with your project's social card
-    image: 'img/docusaurus-social-card.jpg',
+    image: 'img/branda-social-card.png',
     colorMode: {
       respectPrefersColorScheme: true,
     },
@@ -85,16 +87,19 @@ const config: Config = {
       title: 'Branda',
       logo: {
         alt: 'Branda Logo',
-        src: 'img/logo.svg',
+        src: 'img/logo.png',
+        width: 32,
+        height: 32,
       },
       items: [
         {
           type: 'docSidebar',
-          sidebarId: 'tutorialSidebar',
+          sidebarId: 'docsSidebar',
           position: 'left',
-          label: 'Tutorial',
+          label: 'Docs',
         },
-        {to: '/blog', label: 'Blog', position: 'left'},
+        {to: '/docs/quickstart', label: 'Quickstart', position: 'left'},
+        {to: '/docs/changelog', label: 'Changelog', position: 'left'},
         {
           type: 'docsVersionDropdown',
           position: 'right',
@@ -107,53 +112,41 @@ const config: Config = {
       ],
     },
     footer: {
-      style: 'dark',
+      style: 'light',
       links: [
         {
           title: 'Docs',
           items: [
-            {
-              label: 'Tutorial',
-              to: '/docs/intro',
-            },
-          ],
-        },
-        {
-          title: 'Community',
-          items: [
-            {
-              label: 'Stack Overflow',
-              href: 'https://stackoverflow.com/questions/tagged/docusaurus',
-            },
-            {
-              label: 'Discord',
-              href: 'https://discordapp.com/invite/docusaurus',
-            },
-            {
-              label: 'X',
-              href: 'https://x.com/docusaurus',
-            },
+            {label: 'What is branda?', to: '/docs'},
+            {label: 'Installation', to: '/docs/installation'},
+            {label: 'Quickstart', to: '/docs/quickstart'},
+            {label: 'branda-cli', to: '/docs/cli'},
+            {label: 'branda Menu', to: '/docs/menu'},
           ],
         },
         {
           title: 'More',
           items: [
-            {
-              label: 'Blog',
-              to: '/blog',
-            },
-            {
-              label: 'GitHub',
-              href: 'https://github.com/mpowr-it/branda',
-            },
+            {label: 'Usage with AI agents', to: '/docs/ai-agents'},
+            {label: 'FAQ', to: '/docs/faq'},
+            {label: 'Changelog', to: '/docs/changelog'},
+            {label: 'GitHub', href: 'https://github.com/mpowr-it/branda'},
+          ],
+        },
+        {
+          title: 'Legal',
+          items: [
+            {label: 'Licence', to: '/docs/licence'},
+            {label: 'Imprint', to: '/imprint'},
           ],
         },
       ],
-      copyright: `Copyright © ${new Date().getFullYear()} MPOWR IT. Built with Docusaurus.`,
+      copyright: `Copyright © ${new Date().getFullYear()} MPOWR IT GmbH. Built with Docusaurus.`,
     },
     prism: {
-      theme: prismThemes.github,
-      darkTheme: prismThemes.dracula,
+      theme: prismThemes.oneLight,
+      darkTheme: prismThemes.oneDark,
+      additionalLanguages: ['bash', 'json'],
     },
   } satisfies Preset.ThemeConfig,
 };

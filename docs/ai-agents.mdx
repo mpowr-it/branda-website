@@ -1,0 +1,118 @@
+---
+sidebar_position: 6
+title: Usage with AI agents
+description: Let AI coding agents read and maintain your brand information through branda-cli's JSON output.
+---
+
+# Usage with AI agents
+
+Branda exposes all brand information through `branda-cli`, which makes it a natural source of
+truth for AI agents such as Claude Code, Codex, Cursor, or opencode. Instead of pasting hex codes
+and font names into a prompt — or letting the agent guess them — the agent asks Branda directly.
+
+Typical uses:
+
+- **Building UI**: "Use the Sparkle brand colors for the new landing page" — the agent reads the
+  exact colors and turns them into CSS custom properties or a Tailwind theme.
+- **Picking the right files**: the agent finds the current logo or font and copies it into the
+  project.
+- **Writing on-brand content**: the agent reads a brand's Markdown or PDF guidelines.
+- **Maintaining the library**: the agent creates or updates assets for you, e.g. importing a
+  palette from a design file.
+
+## Why branda-cli works well for agents
+
+| Property | What it means for an agent |
+| --- | --- |
+| `--json` on every command | Structured output to parse — no screen scraping |
+| `--non-interactive` | Renames and deletes never wait for a confirmation prompt |
+| Documented [exit codes](./cli/index.md#exit-codes) | `0` success, `1` validation error, `2` not found, `3` aborted |
+| No paging when piped | Output is never paged when it isn't going to a terminal, and `--json` is never paged |
+| Logs on stderr | Diagnostics never mix with the data on stdout |
+| Name **or** UUID everywhere | The agent can refer to things by name, or pin them by ID |
+| Stable JSON fields | New fields are only ever added; existing ones keep their name and meaning |
+
+## Reading brand information
+
+Discover what exists:
+
+```bash
+branda-cli stats --grouped --json        # every organization and brand with asset counts
+branda-cli org list --json
+branda-cli brand list --json             # all brands, each with its orgID
+```
+
+Read a brand's assets:
+
+```bash
+branda-cli asset list --brand "Sparkle" --org "Acme" --json
+```
+
+```json
+[
+  {
+    "id": "…",
+    "brandID": "…",
+    "displayName": "Primary Blue",
+    "type": "color_rgb",
+    "position": 0,
+    "owner": "jdoe",
+    "createdAt": "2026-09-12T09:31:02.884Z",
+    "payload": { "red": 10, "green": 20, "blue": 200 }
+  }
+]
+```
+
+Find assets anywhere — by name, file extension, or media type:
+
+```bash
+branda-cli asset search "logo" --json    # each result includes its organization and brand
+branda-cli asset search "svg"  --json
+```
+
+File contents are never embedded in JSON: file-based assets report `mimeType`, `fileExtension`, and
+`fileSizeBytes`. File payloads live in Branda's data directory (see
+[Where your data lives](./installation.md#where-your-data-lives)).
+
+## Changing brand information
+
+Agents can use the same commands you do. Always add `--non-interactive` to `rename` and `delete`,
+and `--json` to get the result back as data:
+
+```bash
+branda-cli asset create "#0A14C8" --name "Primary Blue" --brand "Sparkle" --org "Acme" --json
+branda-cli asset update "Primary Blue" "#0B15C9" --brand "Sparkle" --org "Acme" --json
+branda-cli asset rename "Primary Blue" "Brand Blue" --brand "Sparkle" --org "Acme" --non-interactive --json
+```
+
+Every successful change is logged at `INFO` level with its previous and new state, so you can check
+what an agent did by running it with `BRANDA_LOG_LEVEL=INFO`. If the status bar app is open, you
+see the changes appear in the popover within about two seconds.
+
+## Telling your agent about Branda
+
+Most agents pick up project instructions from a file like `CLAUDE.md` or `AGENTS.md`. A short
+section is enough:
+
+```markdown
+## Brand information
+
+Brand colors, fonts, logos, and guidelines come from Branda — never guess them.
+
+- Read brand data with `branda-cli`, always with `--json`, e.g.
+  `branda-cli asset list --brand "Sparkle" --org "Acme" --json`.
+- Discover organizations and brands with `branda-cli stats --grouped --json`.
+- Search assets with `branda-cli asset search "<term>" --json`.
+- Always pass `--non-interactive` to `rename` and `delete`.
+- Exit codes: 0 success, 1 validation error, 2 not found, 3 aborted.
+- Run `branda-cli <group> --help` for the exact syntax.
+```
+
+Agents that can run shell commands can then answer questions like *"Which fonts does Sparkle
+use?"* or *"Generate a Tailwind theme from the Acme brand colors"* on their own.
+
+:::caution
+An agent with shell access can also **delete** organizations, brands, and assets — including
+cascading deletes. Use your agent's permission settings to require approval for `branda-cli …
+delete`, and keep a backup of `~/Library/Application Support/Branda/`.
+:::
