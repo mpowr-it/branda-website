@@ -2,9 +2,9 @@
 node_modules/
 
 # Docusaurus build output and caches
-website/build/
-website/.docusaurus/
-website/.cache-loader/
+build/
+.docusaurus/
+.cache-loader/
 
 # Logs
 npm-debug.log*

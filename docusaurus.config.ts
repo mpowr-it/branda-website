@@ -43,7 +43,7 @@ const config: Config = {
           sidebarPath: './sidebars.ts',
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
-          editUrl: 'https://github.com/mpowr-it/branda-website/tree/main/website/',
+          editUrl: 'https://github.com/mpowr-it/branda-website/tree/main/',
           // Major version switcher: "current" (docs/) is the in-development major.
           // Snapshot a major with `mise run docs:version -- <major>.x` before starting the next one.
           lastVersion: 'current',
@@ -62,7 +62,7 @@ const config: Config = {
           },
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
-          editUrl: 'https://github.com/mpowr-it/branda-website/tree/main/website/',
+          editUrl: 'https://github.com/mpowr-it/branda-website/tree/main/',
           // Useful options to enforce blogging best practices
           onInlineTags: 'warn',
           onInlineAuthors: 'warn',

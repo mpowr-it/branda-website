@@ -18,12 +18,11 @@ check them before documenting a feature here; do not invent behavior.
 
 ## Conventions
 
-- Use `mise run <task>` (see `mise.toml`) rather than raw `npm` commands; the Docusaurus app
-  lives in `website/`.
+- Use `mise run <task>` (see `mise.toml`) rather than raw `npm` commands.
 - Before committing, run `mise run typecheck` and `mise run build` — the build fails on broken
   links (`onBrokenLinks: 'throw'`).
-- Docs are versioned per major Branda version. `website/docs/` is the major in development;
-  never edit `website/versioned_docs/` except to fix errors in an already-released major.
+- Docs are versioned per major Branda version. `docs/` is the major in development;
+  never edit `versioned_docs/` except to fix errors in an already-released major.
 - Record notable changes under `[Unreleased]` in `CHANGELOG.md` (Keep a Changelog format).
 - Deployment happens only from `main` via `.github/workflows/deploy.yml`; never run
   `docusaurus deploy` manually.

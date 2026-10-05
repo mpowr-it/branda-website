@@ -17,9 +17,6 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: website
     steps:
       - uses: actions/checkout@v5
 
@@ -27,7 +24,6 @@ jobs:
         with:
           node-version: 22
           cache: npm
-          cache-dependency-path: website/package-lock.json
 
       - run: npm ci
       - run: npm run typecheck
@@ -36,7 +32,7 @@ jobs:
       - uses: actions/upload-pages-artifact@v4
         if: github.event_name != 'pull_request'
         with:
-          path: website/build
+          path: build
 
   deploy:
     if: github.event_name != 'pull_request'

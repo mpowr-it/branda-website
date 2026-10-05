@@ -9,7 +9,7 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 
-- Docusaurus website (classic template) in `website/` with a major version switcher.
+- Docusaurus website (classic template) with a major version switcher.
 - GitHub Pages deployment workflow publishing to <https://branda.mpowr.tech>.
 - `mise.toml` with tasks to install, build, serve, and version the website locally.
 - Project documentation: `README.md`, `CLAUDE.md`, `CHANGELOG.md`, `LICENSE.md`.

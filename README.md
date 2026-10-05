@@ -7,7 +7,7 @@ Published at **<https://branda.mpowr.tech>** via GitHub Pages.
 
 ## Stack
 
-- [Docusaurus 3](https://docusaurus.io/) (classic template, TypeScript) in [`website/`](website)
+- [Docusaurus 3](https://docusaurus.io/) (classic template, TypeScript) at the repository root
 - [mise](https://mise.jdx.dev/) for the toolchain (Node.js 22) and local tasks
 - GitHub Actions + GitHub Pages for deployment
 
@@ -24,9 +24,9 @@ All tasks (`mise tasks` lists them):
 
 | Task                               | What it does                                           |
 |------------------------------------|--------------------------------------------------------|
-| `mise run install`                 | `npm ci` in `website/`                                 |
+| `mise run install`                 | `npm ci`                                               |
 | `mise run dev`                     | Dev server with live reload                            |
-| `mise run build`                   | Production build into `website/build`                  |
+| `mise run build`                   | Production build into `build/`                         |
 | `mise run serve`                   | Build, then serve the production build locally         |
 | `mise run typecheck`               | TypeScript type check                                  |
 | `mise run clear`                   | Clear Docusaurus caches and build output               |
@@ -35,21 +35,20 @@ All tasks (`mise tasks` lists them):
 ## Project layout
 
 ```
-website/
-  docs/                 Docs for the major version in development (labelled "1.x")
-  versioned_docs/       Snapshots of earlier major versions (created on demand)
-  blog/                 Release notes / announcements
-  src/                  React pages, components, custom CSS
-  static/               Static assets, incl. CNAME for the custom domain
-  docusaurus.config.ts  Site configuration
+docs/                   Docs for the major version in development (labelled "1.x")
+versioned_docs/         Snapshots of earlier major versions (created on demand)
+blog/                   Release notes / announcements
+src/                    React pages, components, custom CSS
+static/                 Static assets, incl. CNAME for the custom domain
+docusaurus.config.ts    Site configuration
 .github/workflows/
   deploy.yml            Build on PRs; build + deploy to GitHub Pages on main
 ```
 
 ## Versioning the docs
 
-Docs are versioned per **major** Branda release. `website/docs/` always holds the docs for the
-major currently in development; its label is configured in `website/docusaurus.config.ts`
+Docs are versioned per **major** Branda release. `docs/` always holds the docs for the
+major currently in development; its label is configured in `docusaurus.config.ts`
 (`presets → docs → versions.current.label`).
 
 When starting work on the next major (e.g. 2.x):
@@ -67,7 +66,7 @@ Every push to `main` builds and deploys the site to GitHub Pages
 (`.github/workflows/deploy.yml`); pull requests are built only. One-time repository setup:
 
 1. **Settings → Pages → Build and deployment → Source:** *GitHub Actions*.
-2. **Settings → Pages → Custom domain:** `branda.mpowr.tech` (also shipped as `website/static/CNAME`).
+2. **Settings → Pages → Custom domain:** `branda.mpowr.tech` (also shipped as `static/CNAME`).
 3. DNS: a `CNAME` record `branda.mpowr.tech → mpowr-it.github.io`.
 
 ## Changelog & license
