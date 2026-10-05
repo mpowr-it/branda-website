@@ -1,0 +1,42 @@
+[tools]
+node = "22"
+
+[tasks."install"]
+description = "Install website dependencies"
+dir = "website"
+run = "npm ci"
+
+[tasks."dev"]
+description = "Start the Docusaurus dev server with live reload (http://localhost:3000)"
+dir = "website"
+depends = ["install"]
+run = "npm run start"
+
+[tasks."build"]
+description = "Build the static website into website/build"
+dir = "website"
+depends = ["install"]
+run = "npm run build"
+
+[tasks."serve"]
+description = "Build and serve the production build locally (http://localhost:3000)"
+dir = "website"
+depends = ["build"]
+run = "npm run serve"
+
+[tasks."typecheck"]
+description = "Type-check the website sources"
+dir = "website"
+depends = ["install"]
+run = "npm run typecheck"
+
+[tasks."clear"]
+description = "Clear Docusaurus caches and build output"
+dir = "website"
+run = "npm run clear"
+
+[tasks."docs:version"]
+description = "Snapshot the current docs as a major version, e.g.: mise run docs:version -- 1.x"
+dir = "website"
+depends = ["install"]
+run = "npm run docusaurus -- docs:version"
