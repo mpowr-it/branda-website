@@ -22,6 +22,9 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Changed
 
+- Deploy workflow uses the latest GitHub Actions (checkout v7, setup-node v7,
+  upload-pages-artifact v5, deploy-pages v5), all running on Node.js 24.
+
 ### Deprecated
 
 ### Removed
